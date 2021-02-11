@@ -13,6 +13,7 @@ const HomeScreen = () => {
   const { loading, error, products = [] } = productList
   useEffect(() => {
     dispath(listProducts())
+    console.log(products)
   }, [dispath])
   return (
     <>

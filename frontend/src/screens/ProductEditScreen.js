@@ -66,6 +66,7 @@ const ProductEditScreen = ({ match, history }) => {
         category,
         countInStock,
         description,
+        image,
       })
     )
   }
@@ -85,7 +86,6 @@ const ProductEditScreen = ({ match, history }) => {
       }
 
       const { data } = await axios.post('/api/upload', fd, config)
-      console.log(data)
       setImage(data)
       setUploading(false)
     } catch (error) {

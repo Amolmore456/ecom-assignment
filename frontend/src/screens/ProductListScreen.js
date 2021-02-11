@@ -10,11 +10,13 @@ import {
 import { PRODUCT_CREATE_RESET } from '../store/allActionsConstants'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import Paginate from '../components/Paginate'
 
 const ProductListScreen = ({ history, match }) => {
   const dispatch = useDispatch()
   const productList = useSelector((state) => state.productList)
-  const { loading, error, products = [] } = productList
+  const { loading, error, products = [], pages, page } = productList
+  const pageNumber = match.params.pageNumber || 1
 
   const productDelete = useSelector((state) => state.productDelete)
   const {
@@ -44,10 +46,10 @@ const ProductListScreen = ({ history, match }) => {
       console.log(createdProduct)
       history.push(`/admin/product/${createdProduct._id}/edit`)
     } else {
-      dispatch(listProducts())
+      dispatch(listProducts('', pageNumber))
     }
     if (successDelete) {
-      dispatch(listProducts())
+      dispatch(listProducts('', pageNumber))
     }
   }, [
     dispatch,
@@ -56,6 +58,7 @@ const ProductListScreen = ({ history, match }) => {
     successCreate,
     successDelete,
     createdProduct,
+    pageNumber,
   ])
 
   const deleteProductHandler = (id) => {
@@ -90,45 +93,48 @@ const ProductListScreen = ({ history, match }) => {
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
-        <Table striped bordered hover responsive className='table-sm'>
-          <thead>
-            <tr>
-              <td>ID</td>
-              <td>NAME</td>
-              <td>PRICE</td>
-              <td>CATEGORY</td>
-              <td>BRAND</td>
-              <td>ACTION</td>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => {
-              return (
-                <tr key={product._id}>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
-                  <td>$ {product.price}</td>
-                  <td>{product.category}</td>
-                  <td>{product.brand}</td>
-                  <td>
-                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                      <Button variant='light' className='btn-sm'>
-                        <i className='fas fa-edit'></i>
+        <>
+          <Table striped bordered hover responsive className='table-sm'>
+            <thead>
+              <tr>
+                <td>ID</td>
+                <td>NAME</td>
+                <td>PRICE</td>
+                <td>CATEGORY</td>
+                <td>BRAND</td>
+                <td>ACTION</td>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((product) => {
+                return (
+                  <tr key={product._id}>
+                    <td>{product._id}</td>
+                    <td>{product.name}</td>
+                    <td>$ {product.price}</td>
+                    <td>{product.category}</td>
+                    <td>{product.brand}</td>
+                    <td>
+                      <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                        <Button variant='light' className='btn-sm'>
+                          <i className='fas fa-edit'></i>
+                        </Button>
+                      </LinkContainer>
+                      <Button
+                        variant='danger'
+                        className='btn-sm'
+                        onClick={() => deleteProductHandler(product._id)}
+                      >
+                        <i className='fas fa-trash'></i>
                       </Button>
-                    </LinkContainer>
-                    <Button
-                      variant='danger'
-                      className='btn-sm'
-                      onClick={() => deleteProductHandler(product._id)}
-                    >
-                      <i className='fas fa-trash'></i>
-                    </Button>
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </Table>
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </Table>
+          <Paginate pages={pages} page={page} isAdmin={true}></Paginate>
+        </>
       )}
     </>
   )

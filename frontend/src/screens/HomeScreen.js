@@ -7,14 +7,15 @@ import Loader from '../components/Loader'
 
 import { Row, Col } from 'react-bootstrap'
 
-const HomeScreen = () => {
+const HomeScreen = ({ match }) => {
+  const keyword = match.params.keyword
   const dispath = useDispatch()
   const productList = useSelector((state) => state.productList)
   const { loading, error, products = [] } = productList
   useEffect(() => {
-    dispath(listProducts())
+    dispath(listProducts(keyword))
     console.log(products)
-  }, [dispath])
+  }, [dispath, keyword])
   return (
     <>
       <h1>Grab Your Swag Stickers</h1>

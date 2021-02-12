@@ -94,7 +94,7 @@ const ProductListScreen = ({ history, match }) => {
         <Message variant='danger'>{error}</Message>
       ) : (
         <>
-          <Table striped bordered hover responsive className='table-sm'>
+          <Table striped bordered hover responsive className='table-lg'>
             <thead>
               <tr>
                 <td>ID</td>
@@ -105,7 +105,7 @@ const ProductListScreen = ({ history, match }) => {
                 <td>ACTION</td>
               </tr>
             </thead>
-            <tbody>
+            <tbody className='text-center'>
               {products.map((product) => {
                 return (
                   <tr key={product._id}>
@@ -122,7 +122,7 @@ const ProductListScreen = ({ history, match }) => {
                       </LinkContainer>
                       <Button
                         variant='danger'
-                        className='btn-sm'
+                        className='btn-sm ml-2'
                         onClick={() => deleteProductHandler(product._id)}
                       >
                         <i className='fas fa-trash'></i>

@@ -24,13 +24,19 @@ const OrderListScreen = ({ history }) => {
 
   return (
     <>
-      <h1>Orders</h1>
+      <h1>All Orders</h1>
       {loading ? (
         <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
-        <Table striped bordered hover responsive className='table-sm'>
+        <Table
+          striped
+          bordered
+          hover
+          responsive
+          className='text-center table-lg'
+        >
           <thead>
             <tr>
               <td>ID</td>
@@ -68,7 +74,6 @@ const OrderListScreen = ({ history }) => {
                     <LinkContainer to={`/order/${order._id}`}>
                       <Button variant='light' className='btn-sm'>
                         Details
-                        {/* <i className='fas fa-details'></i> */}
                       </Button>
                     </LinkContainer>
                   </td>

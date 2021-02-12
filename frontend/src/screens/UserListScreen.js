@@ -35,7 +35,14 @@ const UserListScreen = ({ history }) => {
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
-        <Table striped bordered hover responsive className='table-sm'>
+        <Table
+          responsive
+          striped
+          bordered
+          hover
+          responsive
+          className='table-lg text-center'
+        >
           <thead>
             <tr>
               <td>ID</td>
@@ -72,7 +79,7 @@ const UserListScreen = ({ history }) => {
                     </LinkContainer>
                     <Button
                       variant='danger'
-                      className='btn-sm'
+                      className='btn-sm ml-2'
                       onClick={() => deleteUser(user._id)}
                     >
                       <i className='fas fa-trash'></i>

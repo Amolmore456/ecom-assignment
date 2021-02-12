@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { getUserDetails, updateUserProfile } from '../store/actions/userActions'
 import { listMyOrders } from '../store/actions/orderActions'
-import {USER_UPDATE_PROFILE_RESET} from '../store/allActionsConstants'
+import { USER_UPDATE_PROFILE_RESET } from '../store/allActionsConstants'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 
@@ -39,7 +39,7 @@ const ProfileScreen = ({ history }) => {
       history.push('/login')
     } else {
       if (!user.name || !user || success) {
-        dispatch({type:USER_UPDATE_PROFILE_RESET})
+        dispatch({ type: USER_UPDATE_PROFILE_RESET })
         dispatch(getUserDetails('profile'))
         dispatch(listMyOrders())
       } else {
@@ -47,7 +47,7 @@ const ProfileScreen = ({ history }) => {
         setEmail(user.email)
       }
     }
-  }, [dispatch, history, userInfo, user,success])
+  }, [dispatch, history, userInfo, user, success])
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -115,13 +115,13 @@ const ProfileScreen = ({ history }) => {
         </Form>
       </Col>
       <Col md={9}>
-        <h2>Order Details</h2>
+        <h2>My Order Details</h2>
         {loadingOrders ? (
           <Loader />
         ) : errorOrders ? (
           <Message variant='danger'>{errorOrders}</Message>
         ) : (
-          <table className='table table-bordered table-sm'>
+          <table className='table table-bordered text-center table-sm'>
             <tr>
               <th>ID</th>
               <th>DATE</th>
@@ -136,7 +136,7 @@ const ProfileScreen = ({ history }) => {
                   <tr key={order._id}>
                     <td>{order._id}</td>
                     <td>{order.createdAt.substring(0, 10)}</td>
-                    <td>{order.totalPrice}</td>
+                    <td>$ {order.totalPrice}</td>
                     <td>
                       {order.isPaid ? (
                         order.paidAt.substring(0, 10)

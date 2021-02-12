@@ -44,7 +44,6 @@ const OrderScreen = ({ match, history }) => {
     )
   }
   const payHandler = () => {
-    console.log(orderId)
     dispatch(payOrder(orderId))
   }
   const deliveredHandler = () => {
@@ -179,29 +178,41 @@ const OrderScreen = ({ match, history }) => {
                   </ListGroup.Item>
                 </ListGroup>
                 <ListGroup.Item>
-                  <Button
-                    type='button'
-                    className='btn-block'
-                    onClick={payHandler}
-                  >
-                    Pay
-                  </Button>
+                  {!order.isPaid ? (
+                    <Button
+                      type='button'
+                      className='btn-block'
+                      onClick={payHandler}
+                    >
+                      Pay
+                    </Button>
+                  ) : (
+                    <Button type='button' className='btn-block' disabled>
+                      Paid
+                    </Button>
+                  )}
                 </ListGroup.Item>
                 {loadingDelivered && <Loader />}
                 {userInfo &&
-                  userInfo.isAdmin &&
-                  order.isPaid &&
-                  !order.isDelivered && (
-                    <ListGroup.Item>
-                      <Button
-                        type='button'
-                        className='btn btn-block'
-                        onClick={deliveredHandler}
-                      >
-                        Mark as Delivered
-                      </Button>
-                    </ListGroup.Item>
-                  )}
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered ? (
+                  <ListGroup.Item>
+                    <Button
+                      type='button'
+                      className='btn btn-block'
+                      onClick={deliveredHandler}
+                    >
+                      Mark as Delivered
+                    </Button>
+                  </ListGroup.Item>
+                ) : (
+                  <ListGroup.Item>
+                    <Button type='button' className='btn btn-block' disabled>
+                      Delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
               </Card>
             </Col>
           </Row>
